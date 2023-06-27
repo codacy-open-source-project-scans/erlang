@@ -1,0 +1,13 @@
+BUILD
+SOURCES
+SPECS
+tmp
+dist
+docker/*build-dir*
+docker/docker-*
+docker/*.rpm
+*~
+.sw?
+.*.sw?
+/otp_*.tar.gz
+RPMS/*
