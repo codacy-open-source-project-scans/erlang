@@ -12,8 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-%global upstream_ver 26.0.2
-%global package_ver  26.0.2
+%global upstream_ver 26.1.2
+%global package_ver  26.1.2
 %global package_ver_release 1
 
 # See https://fedoraproject.org/wiki/Changes/Broken_RPATH_will_fail_rpmbuild
@@ -30,7 +30,7 @@ Group:		Development/Languages
 License:	ASL 2.0
 URL:		https://www.erlang.org
 Source0:	https://github.com/erlang/otp/archive/OTP-%{upstream_ver}.tar.gz
-Source2:        %{OSL_File_Name}
+Source2:    %{OSL_File_Name}
 Vendor:		VMware, Inc.
 
 
@@ -80,7 +80,13 @@ chmod 644 lib/ssl/examples/src/Makefile
 
 
 %build
-%global conf_flags --enable-shared-zlib --enable-systemd --without-javac --without-odbc
+%global conf_flags --enable-shared-zlib --enable-dynamic-ssl-lib --enable-systemd --without-javac --without-odbc
+
+## add --enable-fips to enable FIPS mode, which is fully supported
+## on OpenSSL 3 starting with Erlang 26.1
+
+## to tweak compiler flags if necessary
+# export CFLAGS="-Wno-error=implicit-function-declaration -O2 -g"
 
 %ifarch sparcv9 sparc64
 CFLAGS="$RPM_OPT_FLAGS -mcpu=ultrasparc -fno-strict-aliasing" %configure %{conf_flags}
@@ -316,6 +322,16 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+
+* Thu Oct 12 2023 Michael Klishin <klishinm@vmware.com> - 26.1.2
+- Update to Erlang/OTP 26.1.2
+
+* Thu Sep 28 2023 Michael Klishin <klishinm@vmware.com> - 26.1.1
+- Update to Erlang/OTP 26.1.1
+
+* Wed Sep 20 2023 Michael Klishin <klishinm@vmware.com> - 26.1
+- Update to Erlang/OTP 26.1
+
 * Thu Jun 29 2023 Michael Klishin <klishinm@vmware.com> - 26.0.2
 - Update to Erlang/OTP 26.0.2
 
